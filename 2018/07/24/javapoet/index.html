@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A record of learning">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          javapoet - Shon&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://txshon.github.io/2018/07/24/javapoet/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Shon Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://txshon.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('kalen.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#APT" title="APT">APT</a>
+                        
+                          <a class="tag" href="/tags/#Java" title="Java">Java</a>
+                        
+                          <a class="tag" href="/tags/#Android" title="Android">Android</a>
+                        
+                    </div>
+                    <h1>javapoet</h1>
+                    <h2 class="subheading">javapoet 是用于生成 .java 文件的Java库</h2>
+                    <span class="meta">
+                        Posted by Shon on
+                        2018-07-24
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2 id="JavaPoet"><a href="#JavaPoet" class="headerlink" title="JavaPoet"></a>JavaPoet</h2><p><em>javapoet 是用于生成 .java 文件的Java库</em></p>
+<h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><h3 id="Feature"><a href="#Feature" class="headerlink" title="Feature"></a>Feature</h3><hr>
+<h3 id="Example-1"><a href="#Example-1" class="headerlink" title="Example"></a>Example</h3><h4 id="需生成的文件"><a href="#需生成的文件" class="headerlink" title="需生成的文件"></a>需生成的文件</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.helloworld;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloWorld</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"Hello, JavaPoet!"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="javapoet生成代码"><a href="#javapoet生成代码" class="headerlink" title="javapoet生成代码"></a>javapoet生成代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">MethodSpec main = MethodSpec.methodBuilder(<span class="string">"main"</span>)</span><br><span class="line">    .addModifiers(Modifier.PUBLIC, Modifier.STATIC)</span><br><span class="line">    .returns(<span class="keyword">void</span>.class)</span><br><span class="line">    .addParameter(String[].class, <span class="string">"args"</span>)</span><br><span class="line">    .addStatement(<span class="string">"$T.out.println($S)"</span>, System.class, <span class="string">"Hello, JavaPoet!"</span>)</span><br><span class="line">    .build();</span><br><span class="line"></span><br><span class="line">TypeSpec helloWorld = TypeSpec.classBuilder(<span class="string">"HelloWorld"</span>)</span><br><span class="line">    .addModifiers(Modifier.PUBLIC, Modifier.FINAL)</span><br><span class="line">    .addMethod(main)</span><br><span class="line">    .build();</span><br><span class="line"></span><br><span class="line">JavaFile javaFile = JavaFile.builder(<span class="string">"com.example.helloworld"</span>, helloWorld)</span><br><span class="line">    .build();</span><br><span class="line"></span><br><span class="line">javaFile.writeTo(System.out);</span><br></pre></td></tr></table></figure>
+<h3 id="Feature-1"><a href="#Feature-1" class="headerlink" title="Feature"></a>Feature</h3><h4 id="code-amp-control-flow"><a href="#code-amp-control-flow" class="headerlink" title="code &amp; control flow"></a>code &amp; control flow</h4><p>javapoet 为类、接口、变量、方法（包含构造方法）、参数以及注解提供了友好的链式Api,而对于方法的内容却是使用字符串来生成代码，方法中的分号，换行，缩紧很繁琐。<br>因此，提供了</p>
+<ul>
+<li><em>addStatement()</em> 控制分号和换行</li>
+<li><em>beginControlFlow() + endControlFlow()</em> 一同使用控制括号、换行和缩进.</li>
+</ul>
+<p>例如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> total = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">    total += i;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们可以直接写成字符串的形式(<em>不优雅</em>)<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">MethodSpec main = MethodSpec.methodBuilder(<span class="string">"main"</span>)</span><br><span class="line">    .addCode(<span class="string">""</span></span><br><span class="line">        + <span class="string">"int total = 0;\n"</span></span><br><span class="line">        + <span class="string">"for (int i = 0; i &lt; 10; i++) &#123;\n"</span></span><br><span class="line">        + <span class="string">"  total += i;\n"</span></span><br><span class="line">        + <span class="string">"&#125;\n"</span>)</span><br><span class="line">    .build();</span><br></pre></td></tr></table></figure></p>
+<p>而写成这样是不是就好多了呢<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">MethodSpec main = MethodSpec.methodBuilder(<span class="string">"main"</span>)</span><br><span class="line">    .addStatement(<span class="string">"int total = 0"</span>)</span><br><span class="line">    .beginControlFlow(<span class="string">"for (int i = 0; i &lt; 10; i++)"</span>)</span><br><span class="line">    .addStatement(<span class="string">"total += i"</span>)</span><br><span class="line">    .endControlFlow()</span><br><span class="line">    .build();</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h4 id="L"><a href="#L" class="headerlink" title="$L"></a>$L</h4><p> 和java的占位符%s一样，javapoet提供了$L<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> MethodSpec <span class="title">computeRange</span><span class="params">(String name, <span class="keyword">int</span> from, <span class="keyword">int</span> to, String op)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> MethodSpec.methodBuilder(name)</span><br><span class="line">      .returns(<span class="keyword">int</span>.class)</span><br><span class="line">      .addStatement(<span class="string">"int result = 0"</span>)</span><br><span class="line">      .beginControlFlow(<span class="string">"for (int i = $L; i &lt; $L; i++)"</span>, from, to)</span><br><span class="line">      .addStatement(<span class="string">"result = result $L i"</span>, op)</span><br><span class="line">      .endControlFlow()</span><br><span class="line">      .addStatement(<span class="string">"return result"</span>)</span><br><span class="line">      .build();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h4 id="S"><a href="#S" class="headerlink" title="$S"></a>$S</h4><p>用于生成string，生成的String是带引号的，如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">  TypeSpec helloWorld = TypeSpec.classBuilder(<span class="string">"HelloWorld"</span>)</span><br><span class="line">      .addModifiers(Modifier.PUBLIC, Modifier.FINAL)</span><br><span class="line">      .addMethod(whatsMyName(<span class="string">"slimShady"</span>))</span><br><span class="line">      .addMethod(whatsMyName(<span class="string">"eminem"</span>))</span><br><span class="line">      .addMethod(whatsMyName(<span class="string">"marshallMathers"</span>))</span><br><span class="line">      .build();</span><br><span class="line"></span><br><span class="line">  JavaFile javaFile = JavaFile.builder(<span class="string">"com.example.helloworld"</span>, helloWorld)</span><br><span class="line">      .build();</span><br><span class="line"></span><br><span class="line">  javaFile.writeTo(System.out);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> MethodSpec <span class="title">whatsMyName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> MethodSpec.methodBuilder(name)</span><br><span class="line">      .returns(String.class)</span><br><span class="line">      .addStatement(<span class="string">"return $S"</span>, name)</span><br><span class="line">      .build();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p>生成的代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloWorld</span> </span>&#123;</span><br><span class="line">  <span class="function">String <span class="title">slimShady</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"slimShady"</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function">String <span class="title">eminem</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"eminem"</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function">String <span class="title">marshallMathers</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"marshallMathers"</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h4 id="T"><a href="#T" class="headerlink" title="$T"></a>$T</h4><p>javapoet对于类型有着丰富的内置支持，包括自动导包，可以直接使用$T引用类型，如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">MethodSpec today = MethodSpec.methodBuilder(<span class="string">"today"</span>)</span><br><span class="line">    .returns(Date.class)</span><br><span class="line">    .addStatement(<span class="string">"return new $T()"</span>, Date.class)</span><br><span class="line">    .build();</span><br><span class="line"></span><br><span class="line">TypeSpec helloWorld = TypeSpec.classBuilder(<span class="string">"HelloWorld"</span>)</span><br><span class="line">    .addModifiers(Modifier.PUBLIC, Modifier.FINAL)</span><br><span class="line">    .addMethod(today)</span><br><span class="line">    .build();</span><br><span class="line"></span><br><span class="line">JavaFile javaFile = JavaFile.builder(<span class="string">"com.example.helloworld"</span>, helloWorld)</span><br><span class="line">    .build();</span><br><span class="line"></span><br><span class="line">javaFile.writeTo(System.out);</span><br></pre></td></tr></table></figure></p>
+<p>生成代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.helloworld;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloWorld</span> </span>&#123;</span><br><span class="line">  <span class="function">Date <span class="title">today</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Date();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面的例子，恰巧我们引用的是一个存在的类，但这个不是必须的，我们可以使用 <em>className</em>。className可以定义任何申明的类型，包括数组，参数化类型，通配符类型以及类型变量。<br>简单例子：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ClassName hoverboard = ClassName.get(<span class="string">"com.mattel"</span>, <span class="string">"Hoverboard"</span>);</span><br><span class="line"></span><br><span class="line">MethodSpec today = MethodSpec.methodBuilder(<span class="string">"tomorrow"</span>)</span><br><span class="line">    .returns(hoverboard)</span><br><span class="line">    .addStatement(<span class="string">"return new $T()"</span>, hoverboard)</span><br><span class="line">    .build();</span><br></pre></td></tr></table></figure></p>
+<hr>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.helloworld;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.mattel.Hoverboard;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloWorld</span> </span>&#123;</span><br><span class="line">  <span class="function">Hoverboard <span class="title">tomorrow</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Hoverboard();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>再看个复杂点的：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ClassName hoverboard = ClassName.get(<span class="string">"com.mattel"</span>, <span class="string">"Hoverboard"</span>);</span><br><span class="line">ClassName list = ClassName.get(<span class="string">"java.util"</span>, <span class="string">"List"</span>);</span><br><span class="line">ClassName arrayList = ClassName.get(<span class="string">"java.util"</span>, <span class="string">"ArrayList"</span>);</span><br><span class="line">TypeName listOfHoverboards = ParameterizedTypeName.get(list, hoverboard);</span><br><span class="line"></span><br><span class="line">MethodSpec beyond = MethodSpec.methodBuilder(<span class="string">"beyond"</span>)</span><br><span class="line">    .returns(listOfHoverboards)</span><br><span class="line">    .addStatement(<span class="string">"$T result = new $T&lt;&gt;()"</span>, listOfHoverboards, arrayList)</span><br><span class="line">    .addStatement(<span class="string">"result.add(new $T())"</span>, hoverboard)</span><br><span class="line">    .addStatement(<span class="string">"result.add(new $T())"</span>, hoverboard)</span><br><span class="line">    .addStatement(<span class="string">"result.add(new $T())"</span>, hoverboard)</span><br><span class="line">    .addStatement(<span class="string">"return result"</span>)</span><br><span class="line">    .build();</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.helloworld;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.mattel.Hoverboard;</span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloWorld</span> </span>&#123;</span><br><span class="line">  <span class="function">List&lt;Hoverboard&gt; <span class="title">beyond</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    List&lt;Hoverboard&gt; result = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    result.add(<span class="keyword">new</span> Hoverboard());</span><br><span class="line">    result.add(<span class="keyword">new</span> Hoverboard());</span><br><span class="line">    result.add(<span class="keyword">new</span> Hoverboard());</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Import-static"><a href="#Import-static" class="headerlink" title="Import static"></a>Import static</h4><p>javapoet可以通过收集类成员名称支持静态变量的导入，语法糖如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">ClassName namedBoards = ClassName.get(<span class="string">"com.mattel"</span>, <span class="string">"Hoverboard"</span>, <span class="string">"Boards"</span>);</span><br><span class="line"></span><br><span class="line">MethodSpec beyond = MethodSpec.methodBuilder(<span class="string">"beyond"</span>)</span><br><span class="line">    .returns(listOfHoverboards)</span><br><span class="line">    .addStatement(<span class="string">"$T result = new $T&lt;&gt;()"</span>, listOfHoverboards, arrayList)</span><br><span class="line">    .addStatement(<span class="string">"result.add($T.createNimbus(2000))"</span>, hoverboard)</span><br><span class="line">    .addStatement(<span class="string">"result.add($T.createNimbus(\"2001\"))"</span>, hoverboard)</span><br><span class="line">    .addStatement(<span class="string">"result.add($T.createNimbus($T.THUNDERBOLT))"</span>, hoverboard, namedBoards)</span><br><span class="line">    .addStatement(<span class="string">"$T.sort(result)"</span>, Collections.class)</span><br><span class="line">    .addStatement(<span class="string">"return result.isEmpty() ? $T.emptyList() : result"</span>, Collections.class)</span><br><span class="line">    .build();</span><br><span class="line"></span><br><span class="line">TypeSpec hello = TypeSpec.classBuilder(<span class="string">"HelloWorld"</span>)</span><br><span class="line">    .addMethod(beyond)</span><br><span class="line">    .build();</span><br><span class="line"></span><br><span class="line">JavaFile.builder(<span class="string">"com.example.helloworld"</span>, hello)</span><br><span class="line">    .addStaticImport(hoverboard, <span class="string">"createNimbus"</span>)</span><br><span class="line">    .addStaticImport(namedBoards, <span class="string">"*"</span>)</span><br><span class="line">    .addStaticImport(Collections.class, <span class="string">"*"</span>)</span><br><span class="line">    .build();</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.helloworld;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> com.mattel.Hoverboard.Boards.*;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> com.mattel.Hoverboard.createNimbus;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> java.util.Collections.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.mattel.Hoverboard;</span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HelloWorld</span> </span>&#123;</span><br><span class="line">  <span class="function">List&lt;Hoverboard&gt; <span class="title">beyond</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    List&lt;Hoverboard&gt; result = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    result.add(createNimbus(<span class="number">2000</span>));</span><br><span class="line">    result.add(createNimbus(<span class="string">"2001"</span>));</span><br><span class="line">    result.add(createNimbus(THUNDERBOLT));</span><br><span class="line">    sort(result);</span><br><span class="line">    <span class="keyword">return</span> result.isEmpty() ? emptyList() : result;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h4 id="N"><a href="#N" class="headerlink" title="$N"></a>$N</h4><p>生成的代码通常是自引用的,javapoet可以通过使用$N引用其他生成代码的名字来引用其他代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">byteToHex</span><span class="params">(<span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">char</span>[] result = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">2</span>];</span><br><span class="line">  result[<span class="number">0</span>] = hexDigit((b &gt;&gt;&gt; <span class="number">4</span>) &amp; <span class="number">0xf</span>);</span><br><span class="line">  result[<span class="number">1</span>] = hexDigit(b &amp; <span class="number">0xf</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> String(result);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">char</span> <span class="title">hexDigit</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (<span class="keyword">char</span>) (i &lt; <span class="number">10</span> ? i + <span class="string">'0'</span> : i - <span class="number">10</span> + <span class="string">'a'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">MethodSpec hexDigit = MethodSpec.methodBuilder(<span class="string">"hexDigit"</span>)</span><br><span class="line">    .addParameter(<span class="keyword">int</span>.class, <span class="string">"i"</span>)</span><br><span class="line">    .returns(<span class="keyword">char</span>.class)</span><br><span class="line">    .addStatement(<span class="string">"return (char) (i &lt; 10 ? i + '0' : i - 10 + 'a')"</span>)</span><br><span class="line">    .build();</span><br><span class="line"></span><br><span class="line">MethodSpec byteToHex = MethodSpec.methodBuilder(<span class="string">"byteToHex"</span>)</span><br><span class="line">    .addParameter(<span class="keyword">int</span>.class, <span class="string">"b"</span>)</span><br><span class="line">    .returns(String.class)</span><br><span class="line">    .addStatement(<span class="string">"char[] result = new char[2]"</span>)</span><br><span class="line">    .addStatement(<span class="string">"result[0] = $N((b &gt;&gt;&gt; 4) &amp; 0xf)"</span>, hexDigit)</span><br><span class="line">    .addStatement(<span class="string">"result[1] = $N(b &amp; 0xf)"</span>, hexDigit)</span><br><span class="line">    .addStatement(<span class="string">"return new String(result)"</span>)</span><br><span class="line">    .build();</span><br><span class="line">`</span><br></pre></td></tr></table></figure>
+<hr>
+<h4 id="Code-block-format-strings"><a href="#Code-block-format-strings" class="headerlink" title="Code block format strings"></a>Code block format strings</h4><p>代码块有几种不同的方式指定占位符的值，注意的是： 每个代码块的每个操作只能是一种方式：</p>
+<ul>
+<li><p>Relative Arguments(普通方式)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CodeBlock.builder().add(<span class="string">"I ate $L $L"</span>, <span class="number">3</span>, <span class="string">"tacos"</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Positional Argument（在占位符前面加一个index,从1开始）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CodeBlock.builder().add(<span class="string">"I ate $2L $1L"</span>, <span class="string">"tacos"</span>, <span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Named Arguments(使用$argumentName:X语法，参数名规则：a-z, A-Z, 0-9, and _；首字母小写)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String, Object&gt; map = <span class="keyword">new</span> LinkedHashMap&lt;&gt;();</span><br><span class="line">map.put(<span class="string">"food"</span>, <span class="string">"tacos"</span>);</span><br><span class="line">map.put(<span class="string">"count"</span>, <span class="number">3</span>);</span><br><span class="line">CodeBlock.builder().addNamed(<span class="string">"I ate $count:L $food:L"</span>, map)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h4 id="Methods"><a href="#Methods" class="headerlink" title="Methods"></a>Methods</h4><p>方法没什么好说，贴个栗子；不过需要注意的是，在javapoet中使用的 <em>javax.lang.model.element.Modifier</em>,是无法在Android运行的，只能用于代码生成。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">MethodSpec flux = MethodSpec.methodBuilder(<span class="string">"flux"</span>)</span><br><span class="line">    .addModifiers(Modifier.ABSTRACT, Modifier.PROTECTED)</span><br><span class="line">    .build();</span><br><span class="line"></span><br><span class="line">TypeSpec helloWorld = TypeSpec.classBuilder(<span class="string">"HelloWorld"</span>)</span><br><span class="line">    .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)</span><br><span class="line">    .addMethod(flux)</span><br><span class="line">    .build();</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloWorld</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">flux</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h4 id="Constructors"><a href="#Constructors" class="headerlink" title="Constructors"></a>Constructors</h4><p>构造方法也可以看作方法，唯一不同的是，在生成的文件中，Javapoet会把它放在其他方法前面。</p>
+<h4 id="Parameters"><a href="#Parameters" class="headerlink" title="Parameters"></a>Parameters</h4><ul>
+<li>ParameterSpec.builder()</li>
+<li>MethodSpec.methodBuilder(“xx”).addParameter()</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ParameterSpec android = ParameterSpec.builder(String.class, <span class="string">"android"</span>)</span><br><span class="line">    .addModifiers(Modifier.FINAL)</span><br><span class="line">    .build();</span><br><span class="line"></span><br><span class="line">MethodSpec welcomeOverlords = MethodSpec.methodBuilder(<span class="string">"welcomeOverlords"</span>)</span><br><span class="line">    .addParameter(android)</span><br><span class="line">    .addParameter(String.class, <span class="string">"robot"</span>, Modifier.FINAL)</span><br><span class="line">    .build();</span><br></pre></td></tr></table></figure>
+<h4 id="Fields"><a href="#Fields" class="headerlink" title="Fields"></a>Fields</h4><p>变量很简单，可以使用 <em>initializer()</em>初始化变量。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">FieldSpec android = FieldSpec.builder(String.class, <span class="string">"android"</span>)</span><br><span class="line">    .addModifiers(Modifier.PRIVATE, Modifier.FINAL)</span><br><span class="line">    .build();</span><br><span class="line"></span><br><span class="line">TypeSpec helloWorld = TypeSpec.classBuilder(<span class="string">"HelloWorld"</span>)</span><br><span class="line">    .addModifiers(Modifier.PUBLIC)</span><br><span class="line">    .addField(android)</span><br><span class="line">    .addField(String.class, <span class="string">"robot"</span>, Modifier.PRIVATE, Modifier.FINAL)</span><br><span class="line">    .build();</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloWorld</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> String android;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> String robot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FieldSpec android = FieldSpec.builder(String.class, <span class="string">"android"</span>)</span><br><span class="line">    .addModifiers(Modifier.PRIVATE, Modifier.FINAL)</span><br><span class="line">    .initializer(<span class="string">"$S + $L"</span>, <span class="string">"Lollipop v."</span>, <span class="number">5.0</span>d)</span><br><span class="line">    .build();</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> String android = <span class="string">"Lollipop v."</span> + <span class="number">5.0</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="Interfaces"><a href="#Interfaces" class="headerlink" title="Interfaces"></a>Interfaces</h4><ul>
+<li>接口方法要加上 <em>PUBLIC ABSTRACT</em></li>
+<li>接口变量要加上 <em>PUBLIC STATIC FINAL</em></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">TypeSpec helloWorld = TypeSpec.interfaceBuilder(<span class="string">"HelloWorld"</span>)</span><br><span class="line">    .addModifiers(Modifier.PUBLIC)</span><br><span class="line">    .addField(FieldSpec.builder(String.class, <span class="string">"ONLY_THING_THAT_IS_CONSTANT"</span>)</span><br><span class="line">        .addModifiers(Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL)</span><br><span class="line">        .initializer(<span class="string">"$S"</span>, <span class="string">"change"</span>)</span><br><span class="line">        .build())</span><br><span class="line">    .addMethod(MethodSpec.methodBuilder(<span class="string">"beep"</span>)</span><br><span class="line">        .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)</span><br><span class="line">        .build())</span><br><span class="line">    .build();</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">HelloWorld</span> </span>&#123;</span><br><span class="line">  String ONLY_THING_THAT_IS_CONSTANT = <span class="string">"change"</span>;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">beep</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h4 id="Enums"><a href="#Enums" class="headerlink" title="Enums"></a>Enums</h4><p>使用 <em>enumBuilder</em> 创建枚举类型，<em>addEnumConstant()</em> 添加枚举值<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">TypeSpec helloWorld = TypeSpec.enumBuilder(<span class="string">"Roshambo"</span>)</span><br><span class="line">    .addModifiers(Modifier.PUBLIC)</span><br><span class="line">    .addEnumConstant(<span class="string">"ROCK"</span>)</span><br><span class="line">    .addEnumConstant(<span class="string">"SCISSORS"</span>)</span><br><span class="line">    .addEnumConstant(<span class="string">"PAPER"</span>)</span><br><span class="line">    .build();</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> Roshambo &#123;</span><br><span class="line">  ROCK,</span><br><span class="line"></span><br><span class="line">  SCISSORS,</span><br><span class="line"></span><br><span class="line">  PAPER</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>看个复杂的栗子,支持重写方法，构造方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">TypeSpec helloWorld = TypeSpec.enumBuilder(<span class="string">"Roshambo"</span>)</span><br><span class="line">    .addModifiers(Modifier.PUBLIC)</span><br><span class="line">    .addEnumConstant(<span class="string">"ROCK"</span>, TypeSpec.anonymousClassBuilder(<span class="string">"$S"</span>, <span class="string">"fist"</span>)</span><br><span class="line">        .addMethod(MethodSpec.methodBuilder(<span class="string">"toString"</span>)</span><br><span class="line">            .addAnnotation(Override.class)</span><br><span class="line">            .addModifiers(Modifier.PUBLIC)</span><br><span class="line">            .addStatement(<span class="string">"return $S"</span>, <span class="string">"avalanche!"</span>)</span><br><span class="line">            .returns(String.class)</span><br><span class="line">            .build())</span><br><span class="line">        .build())</span><br><span class="line">    .addEnumConstant(<span class="string">"SCISSORS"</span>, TypeSpec.anonymousClassBuilder(<span class="string">"$S"</span>, <span class="string">"peace"</span>)</span><br><span class="line">        .build())</span><br><span class="line">    .addEnumConstant(<span class="string">"PAPER"</span>, TypeSpec.anonymousClassBuilder(<span class="string">"$S"</span>, <span class="string">"flat"</span>)</span><br><span class="line">        .build())</span><br><span class="line">    .addField(String.class, <span class="string">"handsign"</span>, Modifier.PRIVATE, Modifier.FINAL)</span><br><span class="line">    .addMethod(MethodSpec.constructorBuilder()</span><br><span class="line">        .addParameter(String.class, <span class="string">"handsign"</span>)</span><br><span class="line">        .addStatement(<span class="string">"this.$N = $N"</span>, <span class="string">"handsign"</span>, <span class="string">"handsign"</span>)</span><br><span class="line">        .build())</span><br><span class="line">    .build();</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> Roshambo &#123;</span><br><span class="line">  ROCK(<span class="string">"fist"</span>) &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="string">"avalanche!"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  SCISSORS(<span class="string">"peace"</span>),</span><br><span class="line"></span><br><span class="line">  PAPER(<span class="string">"flat"</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> String handsign;</span><br><span class="line"></span><br><span class="line">  Roshambo(String handsign) &#123;</span><br><span class="line">    <span class="keyword">this</span>.handsign = handsign;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h4 id="Anonymous-Inner-Classes"><a href="#Anonymous-Inner-Classes" class="headerlink" title="Anonymous Inner Classes"></a>Anonymous Inner Classes</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">TypeSpec comparator = TypeSpec.anonymousClassBuilder(<span class="string">""</span>)</span><br><span class="line">    .addSuperinterface(ParameterizedTypeName.get(Comparator.class, String.class))</span><br><span class="line">    .addMethod(MethodSpec.methodBuilder(<span class="string">"compare"</span>)</span><br><span class="line">        .addAnnotation(Override.class)</span><br><span class="line">        .addModifiers(Modifier.PUBLIC)</span><br><span class="line">        .addParameter(String.class, <span class="string">"a"</span>)</span><br><span class="line">        .addParameter(String.class, <span class="string">"b"</span>)</span><br><span class="line">        .returns(<span class="keyword">int</span>.class)</span><br><span class="line">        .addStatement(<span class="string">"return $N.length() - $N.length()"</span>, <span class="string">"a"</span>, <span class="string">"b"</span>)</span><br><span class="line">        .build())</span><br><span class="line">    .build();</span><br><span class="line"></span><br><span class="line">TypeSpec helloWorld = TypeSpec.classBuilder(<span class="string">"HelloWorld"</span>)</span><br><span class="line">    .addMethod(MethodSpec.methodBuilder(<span class="string">"sortByLength"</span>)</span><br><span class="line">        .addParameter(ParameterizedTypeName.get(List.class, String.class), <span class="string">"strings"</span>)</span><br><span class="line">        .addStatement(<span class="string">"$T.sort($N, $L)"</span>, Collections.class, <span class="string">"strings"</span>, comparator)</span><br><span class="line">        .build())</span><br><span class="line">    .build();</span><br></pre></td></tr></table></figure>
+<hr>
+<h4 id="Annotations"><a href="#Annotations" class="headerlink" title="Annotations"></a>Annotations</h4><p>简单注解<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">MethodSpec toString = MethodSpec.methodBuilder(<span class="string">"toString"</span>)</span><br><span class="line">    .addAnnotation(Override.class)</span><br><span class="line">    .returns(String.class)</span><br><span class="line">    .addModifiers(Modifier.PUBLIC)</span><br><span class="line">    .addStatement(<span class="string">"return $S"</span>, <span class="string">"Hoverboard"</span>)</span><br><span class="line">    .build();</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">"Hoverboard"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>使用 <em>AnnotationSpec.builder()</em> 为注解添加属性：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">MethodSpec logRecord = MethodSpec.methodBuilder(<span class="string">"recordEvent"</span>)</span><br><span class="line">    .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)</span><br><span class="line">    .addAnnotation(AnnotationSpec.builder(Headers.class)</span><br><span class="line">        .addMember(<span class="string">"accept"</span>, <span class="string">"$S"</span>, <span class="string">"application/json; charset=utf-8"</span>)</span><br><span class="line">        .addMember(<span class="string">"userAgent"</span>, <span class="string">"$S"</span>, <span class="string">"Square Cash"</span>)</span><br><span class="line">        .build())</span><br><span class="line">    .addParameter(LogRecord.class, <span class="string">"logRecord"</span>)</span><br><span class="line">    .returns(LogReceipt.class)</span><br><span class="line">    .build();</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Headers</span>(</span><br><span class="line">    accept = <span class="string">"application/json; charset=utf-8"</span>,</span><br><span class="line">    userAgent = <span class="string">"Square Cash"</span></span><br><span class="line">)</span><br><span class="line"><span class="function">LogReceipt <span class="title">recordEvent</span><span class="params">(LogRecord logRecord)</span></span>;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>注解值也可以是注解本身，使用$L内嵌注解：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">MethodSpec logRecord = MethodSpec.methodBuilder(<span class="string">"recordEvent"</span>)</span><br><span class="line">    .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)</span><br><span class="line">    .addAnnotation(AnnotationSpec.builder(HeaderList.class)</span><br><span class="line">        .addMember(<span class="string">"value"</span>, <span class="string">"$L"</span>, AnnotationSpec.builder(Header.class)</span><br><span class="line">            .addMember(<span class="string">"name"</span>, <span class="string">"$S"</span>, <span class="string">"Accept"</span>)</span><br><span class="line">            .addMember(<span class="string">"value"</span>, <span class="string">"$S"</span>, <span class="string">"application/json; charset=utf-8"</span>)</span><br><span class="line">            .build())</span><br><span class="line">        .addMember(<span class="string">"value"</span>, <span class="string">"$L"</span>, AnnotationSpec.builder(Header.class)</span><br><span class="line">            .addMember(<span class="string">"name"</span>, <span class="string">"$S"</span>, <span class="string">"User-Agent"</span>)</span><br><span class="line">            .addMember(<span class="string">"value"</span>, <span class="string">"$S"</span>, <span class="string">"Square Cash"</span>)</span><br><span class="line">            .build())</span><br><span class="line">        .build())</span><br><span class="line">    .addParameter(LogRecord.class, <span class="string">"logRecord"</span>)</span><br><span class="line">    .returns(LogReceipt.class)</span><br><span class="line">    .build()</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@HeaderList</span>(&#123;</span><br><span class="line">    <span class="meta">@Header</span>(name = <span class="string">"Accept"</span>, value = <span class="string">"application/json; charset=utf-8"</span>),</span><br><span class="line">    <span class="meta">@Header</span>(name = <span class="string">"User-Agent"</span>, value = <span class="string">"Square Cash"</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="function">LogReceipt <span class="title">recordEvent</span><span class="params">(LogRecord logRecord)</span></span>;</span><br></pre></td></tr></table></figure>
+<hr>
+<h4 id="Javadoc"><a href="#Javadoc" class="headerlink" title="Javadoc"></a>Javadoc</h4><p>变量、方法、类可以使用注释文档：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">MethodSpec dismiss = MethodSpec.methodBuilder(<span class="string">"dismiss"</span>)</span><br><span class="line">    .addJavadoc(<span class="string">"Hides &#123;@code message&#125; from the caller's history. Other\n"</span></span><br><span class="line">        + <span class="string">"participants in the conversation will continue to see the\n"</span></span><br><span class="line">        + <span class="string">"message in their own history unless they also delete it.\n"</span>)</span><br><span class="line">    .addJavadoc(<span class="string">"\n"</span>)</span><br><span class="line">    .addJavadoc(<span class="string">"&lt;p&gt;Use &#123;@link #delete($T)&#125; to delete the entire\n"</span></span><br><span class="line">        + <span class="string">"conversation for all participants.\n"</span>, Conversation.class)</span><br><span class="line">    .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)</span><br><span class="line">    .addParameter(Message.class, <span class="string">"message"</span>)</span><br><span class="line">    .build();</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * Hides &#123;<span class="doctag">@code</span> message&#125; from the caller's history. Other</span></span><br><span class="line"><span class="comment">  * participants in the conversation will continue to see the</span></span><br><span class="line"><span class="comment">  * message in their own history unless they also delete it.</span></span><br><span class="line"><span class="comment">  *</span></span><br><span class="line"><span class="comment">  * &lt;p&gt;Use &#123;<span class="doctag">@link</span> #delete(Conversation)&#125; to delete the entire</span></span><br><span class="line"><span class="comment">  * conversation for all participants.</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"> <span class="function"><span class="keyword">void</span> <span class="title">dismiss</span><span class="params">(Message message)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>至此，语法糖介绍完毕！</p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2018/02/09/hello-world/" data-toggle="tooltip" data-placement="top" title="Hello World">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#APT" title="APT">APT</a>
+                        
+                          <a class="tag" href="/tags/#Java" title="Java">Java</a>
+                        
+                          <a class="tag" href="/tags/#Android" title="Android">Android</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/TxShon">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Shon Blog 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://txshon.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-106844303-1';
+    var _gaDomain = '';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '3a047e3126340a0bf27a5c3254146510';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://txshon.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
